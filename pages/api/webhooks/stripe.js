@@ -9,7 +9,7 @@ const cors = Cors({
 
 export const config = {
   api: {
-    bodyParser: false,
+    bodyParser: false, // Disable the default body parser
   },
 };
 
@@ -17,22 +17,39 @@ const stripe = stripeInit(process.env.STRIPE_SECRET_KEY);
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 const handler = async (req, res) => {
-
-  
   if (req.method === 'POST') {
     let event;
+
+    // Read the raw body
+    const buf = await new Promise((resolve, reject) => {
+      let data = '';
+      req.on('data', chunk => {
+        data += chunk; // Accumulate the raw body chunks
+      });
+      req.on('end', () => {
+        resolve(data); // Resolve the promise with the full body
+      });
+      req.on('error', (err) => {
+        reject(err); // Reject the promise on error
+      });
+    });
+
     try {
+      // Verify the Stripe event using the raw body
       event = await verifyStripe({
         req,
         stripe,
         endpointSecret,
+        rawBody: buf, // Pass the raw body here
       });
     } catch (e) {
-			res.status(500).json({ error: e.message })
+      res.status(500).json({ error: e.message });
       console.log('ERROR: ', e);
+      return; // Make sure to return after sending a response
     }
-    console.log("events",event);
-    console.log("events.type",event.type);
+
+    console.log("events", event);
+    console.log("events.type", event.type);
     switch (event.type) {
       case 'payment_intent.succeeded': {
         const client = await clientPromise;
@@ -42,8 +59,8 @@ const handler = async (req, res) => {
         const auth0Id = paymentIntent.metadata.sub;
 
         console.log('AUTH 0 ID: ', paymentIntent);
-				console.log('paymentIntent: ', paymentIntent)
-				console.log('auth0Id: ', auth0Id)
+        console.log('paymentIntent: ', paymentIntent);
+        console.log('auth0Id: ', auth0Id);
 
         const userProfile = await db.collection('users').updateOne(
           {
@@ -61,14 +78,18 @@ const handler = async (req, res) => {
             upsert: true,
           }
         );
-				console.log('USER PROFILE: ', userProfile);
-				break;
+        console.log('USER PROFILE: ', userProfile);
+        break;
       }
       default:
         console.log('UNHANDLED EVENT: ', event.type);
-				break;
+        break;
     }
+
     res.status(200).json({ received: true });
+  } else {
+    res.setHeader('Allow', ['POST']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 };
 
