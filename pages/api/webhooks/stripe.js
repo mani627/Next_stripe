@@ -17,6 +17,8 @@ const stripe = stripeInit(process.env.STRIPE_SECRET_KEY);
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 const handler = async (req, res) => {
+  console.log("-wwwweeeebbhhhoookk",req);
+  
   if (req.method === 'POST') {
     let event;
     try {
