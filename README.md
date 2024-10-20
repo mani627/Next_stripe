@@ -43,6 +43,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 <img width="1440" alt="Screenshot 2023-07-07 at 5 16 20 PM" src="https://github.com/christine-aqui/blog-post-generator/assets/2739361/92028477-6b43-4353-a775-c4e6a68b8e1f">
 
+![image](https://github.com/user-attachments/assets/f4c6721e-83c7-4c1b-a076-2652431e8677)
+
 
 ## Learn More
 
