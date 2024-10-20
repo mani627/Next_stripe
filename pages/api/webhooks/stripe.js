@@ -33,6 +33,7 @@ const handler = async (req, res) => {
         reject(err); // Reject the promise on error
       });
     });
+console.log("raw",buf);
 
     try {
       // Verify the Stripe event using the raw body
