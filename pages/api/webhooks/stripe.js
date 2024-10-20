@@ -1,20 +1,24 @@
 import Cors from 'micro-cors';
-import stripeInit from 'stripe';
+// import stripeInit from 'stripe';
+import Stripe from 'stripe';
 import verifyStripe from '@webdeveducation/next-verify-stripe';
 import clientPromise from '../../../lib/mongodb';
 
-const cors = Cors({
-  allowMethods: ['POST', 'HEAD'],
-});
 
+
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 export const config = {
   api: {
     bodyParser: false, // Disable the default body parser
   },
 };
 
-const stripe = stripeInit(process.env.STRIPE_SECRET_KEY);
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+const cors = Cors({
+  allowMethods: ['POST', 'HEAD'],
+});
+
 
 const handler = async (req, res) => {
 
