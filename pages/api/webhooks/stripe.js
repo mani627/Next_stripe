@@ -17,7 +17,7 @@ const stripe = stripeInit(process.env.STRIPE_SECRET_KEY);
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 const handler = async (req, res) => {
-  console.log("-wwwweeeebbhhhoookk",req);
+
   
   if (req.method === 'POST') {
     let event;
@@ -31,7 +31,7 @@ const handler = async (req, res) => {
 			res.status(500).json({ error: e.message })
       console.log('ERROR: ', e);
     }
-
+    console.log("-wwwweeeebbhhhoookk",req,"event",event);
     switch (event.type) {
       case 'payment_intent.succeeded': {
         const client = await clientPromise;
