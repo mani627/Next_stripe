@@ -17,7 +17,7 @@ export const getAppProps = async (ctx) => {
     const newUser = {
       auth0Id: userSession.user.sub,
       email: userSession.user.email,  // assuming email is available in session
-      availableTokens: 100,  // Give new users an initial amount of tokens (adjust as needed)
+      availableTokens: 0,  // Give new users an initial amount of tokens (adjust as needed)
       createdAt: new Date(),
     };
     
@@ -41,18 +41,18 @@ export const getAppProps = async (ctx) => {
     .toArray();
 
   // Step 4: Optionally, create a default post if the user has no posts
-  if (posts.length === 0) {
-    const defaultPost = {
-      userId: user._id,
-      title: 'Welcome Post',
-      content: 'This is your first post. Feel free to edit or delete it!',
-      created: new Date(),
-    };
+  // if (posts.length === 0) {
+  //   const defaultPost = {
+  //     userId: user._id,
+  //     title: 'Welcome Post',
+  //     content: 'This is your first post. Feel free to edit or delete it!',
+  //     created: new Date(),
+  //   };
 
-    await db.collection('posts').insertOne(defaultPost);
+  //   await db.collection('posts').insertOne(defaultPost);
 
-    posts.push(defaultPost);  // Add the default post to the posts array
-  }
+  //   posts.push(defaultPost);  // Add the default post to the posts array
+  // }
 
   // Step 5: Return available tokens, posts, and postId if any
   return {

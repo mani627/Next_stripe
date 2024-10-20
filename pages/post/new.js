@@ -42,7 +42,7 @@ export default function NewPost(props) {
 
   return (
     <div className="h-full overflow-hidden  bg-slate-300 ">
-      {true && (
+      {!!generating && (
         <div className="text-[#3c6d79] flex h-full animate-pulse w-full flex-col justify-center items-center">
           <FontAwesomeIcon icon={faBrain} className="text-8xl" />
           <p className=' font-normal'>Generating...</p>
