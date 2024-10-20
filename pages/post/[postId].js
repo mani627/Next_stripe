@@ -33,13 +33,13 @@ export default function Post(props) {
   };
 
   return (
-    <div className="overflow-auto h-full bg-[#E0E2EE] lg:absolute lg:left-[17%] w-[53vw] md:w-[100vw]">
-      <div className="max-w-screen-sm mx-auto">
+    <div className="overflow-auto h-full flex justify-center bg-[#E0E2EE] lg:absolute lg:left-[17%] w-[53vw] md:w-[100vw]">
+      <div className="w-[86vw] ">
         <div className="text-sm font-bold mt-6 p-2 bg-[#3c6d79] text-[#f9ae65] rounded-sm md:mt-20">
           SEO title and meta description
         </div>
         <div className="p-4 my-2 border border-stone-200 rounded-md">
-          <div className="text-blue-600 text-2xl font-bold">{props.title}</div>
+          {/* <div className="text-blue-600 text-2xl font-bold">{props.title}</div> */}
           <div className="mt-2">{props.metaDescription}</div>
         </div>
         <div className="text-sm font-bold mt-6 p-2 bg-[#3c6d79] text-[#f9ae65]  rounded-sm">

@@ -48,7 +48,7 @@ export const AppLayout = ({
         {children}
       </div>
 
-      <div className={` flex flex-col text-white overflow-hidden fixed right-0 min-h-screen transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'} lg:translate-x-0  `}>
+      <div className={` flex flex-col text-white overflow-hidden fixed right-0   h-[100dvh] transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'} lg:translate-x-0  `}>
         <div className=" bg-[#3c6d79] px-2">
           <Logo />
           <Link href="/post/new" className="btn bg-[#f9ae65] disabled:bg-[#f9ae65]">
