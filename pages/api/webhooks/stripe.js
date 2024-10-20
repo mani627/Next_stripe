@@ -17,37 +17,50 @@ const stripe = stripeInit(process.env.STRIPE_SECRET_KEY);
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 const handler = async (req, res) => {
+
   if (req.method === 'POST') {
-    let event;
+    // let event;
 
     // Read the raw body
-    const buf = await new Promise((resolve, reject) => {
-      let data = '';
-      req.on('data', chunk => {
-        data += chunk; // Accumulate the raw body chunks
-      });
-      req.on('end', () => {
-        resolve(data); // Resolve the promise with the full body
-      });
-      req.on('error', (err) => {
-        reject(err); // Reject the promise on error
-      });
-    });
-console.log("raw",buf);
+    // const buf = await new Promise((resolve, reject) => {
+    //   let data = '';
+    //   req.on('data', chunk => {
+    //     data += chunk; // Accumulate the raw body chunks
+    //   });
+    //   req.on('end', () => {
+    //     resolve(data); // Resolve the promise with the full body
+    //   });
+    //   req.on('error', (err) => {
+    //     reject(err); // Reject the promise on error
+    //   });
+    // });
+// console.log("raw",buf);
 
-    try {
-      // Verify the Stripe event using the raw body
-      event = await verifyStripe({
-        req,
-        stripe,
-        endpointSecret,
-        rawBody: buf, // Pass the raw body here
-      });
-    } catch (e) {
-      res.status(500).json({ error: e.message });
-      console.log('ERROR: ', e);
-      return; // Make sure to return after sending a response
-    }
+//     try {
+//       // Verify the Stripe event using the raw body
+//       event = await verifyStripe({
+//         req,
+//         stripe,
+//         endpointSecret,
+//         rawBody: buf, // Pass the raw body here
+//       });
+//     } catch (e) {
+//       res.status(500).json({ error: e.message });
+//       console.log('ERROR: ', e);
+//       return; // Make sure to return after sending a response
+//     }
+
+const sig = req.headers['stripe-signature'];
+const rawBody = await buffer(req);
+
+let event;
+
+try {
+  event = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET);
+} catch (err) {
+  console.error(`Webhook Error: ${err.message}`);
+  return res.status(400).send(`Webhook Error: ${err.message}`);
+}
 
     console.log("events", event);
     console.log("events.type", event.type);
