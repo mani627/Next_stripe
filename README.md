@@ -29,21 +29,14 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - add test
 
 ## Screenshots
-<img width="1440" alt="Screenshot 2023-07-07 at 5 13 30 PM" src="https://github.com/christine-aqui/blog-post-generator/assets/2739361/a7a3f935-3bbc-47e5-9f1d-6063099bad0b">
-
-<img width="1440" alt="Screenshot 2023-07-07 at 5 13 42 PM" src="https://github.com/christine-aqui/blog-post-generator/assets/2739361/deb4f2e9-ffb7-4740-9c2a-10194c6337b0">
-
-<img width="1440" alt="Screenshot 2023-07-07 at 5 13 57 PM" src="https://github.com/christine-aqui/blog-post-generator/assets/2739361/72e139df-f475-43c1-8fe9-6ded4eb5d750">
-
-<img width="1440" alt="Screenshot 2023-07-07 at 5 15 22 PM" src="https://github.com/christine-aqui/blog-post-generator/assets/2739361/2ea108ea-06db-4ceb-aa09-d3f36ede2a33">
-
-<img width="1440" alt="Screenshot 2023-07-07 at 5 15 33 PM" src="https://github.com/christine-aqui/blog-post-generator/assets/2739361/1d3e79ca-398f-432f-89c5-4dc812e934e8">
-
-<img width="1440" alt="Screenshot 2023-07-07 at 5 15 53 PM" src="https://github.com/christine-aqui/blog-post-generator/assets/2739361/52b42fc7-dddb-41b2-b324-c5dff589b052">
-
-<img width="1440" alt="Screenshot 2023-07-07 at 5 16 20 PM" src="https://github.com/christine-aqui/blog-post-generator/assets/2739361/92028477-6b43-4353-a775-c4e6a68b8e1f">
-
 ![image](https://github.com/user-attachments/assets/f4c6721e-83c7-4c1b-a076-2652431e8677)
+![image](https://github.com/user-attachments/assets/0931dc1f-1bb8-4538-a12f-a6959b4528c6)
+
+![image](https://github.com/user-attachments/assets/a1da0eeb-1802-402d-b4bd-78232f760fea)
+![image](https://github.com/user-attachments/assets/7d5dbe77-9968-47f2-9b68-4c6c494f7579)
+![image](https://github.com/user-attachments/assets/d9212b76-409a-4696-945d-e88af0a2ef5c)
+![image](https://github.com/user-attachments/assets/c203b8d8-3b0c-4f8b-b28b-bbf6cc5a3aed)
+![image](https://github.com/user-attachments/assets/21661753-4eae-4013-b666-7483027ea02b)
 
 
 ## Learn More
