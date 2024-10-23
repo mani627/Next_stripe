@@ -55,7 +55,8 @@ const handler = async (req, res) => {
 //     }
 
 const sig = req.headers['stripe-signature'];
-const rawBody = await buffer(req);
+const rawBody = req.rawBody;
+console.log({rawBody});
 
 let event;
 
