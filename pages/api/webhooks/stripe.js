@@ -1,7 +1,7 @@
 import Cors from 'micro-cors';
 // import stripeInit from 'stripe';
 import Stripe from 'stripe';
-
+import { buffer } from 'micro';
 import clientPromise from '../../../lib/mongodb';
 
 
@@ -55,7 +55,7 @@ const handler = async (req, res) => {
 //     }
 
 const sig  = req.headers['Stripe-Signature'];
-const rawBody = await req.text()
+const rawBody = await buffer(req);
 
 let event;
 
