@@ -1,9 +1,9 @@
 import Cors from 'micro-cors';
 // import stripeInit from 'stripe';
 import Stripe from 'stripe';
-import verifyStripe from '@webdeveducation/next-verify-stripe';
+
 import clientPromise from '../../../lib/mongodb';
-import {headers} from 'next/headers'
+
 
 
 
@@ -54,7 +54,7 @@ const handler = async (req, res) => {
 //       return; // Make sure to return after sending a response
 //     }
 
-const sig = headers().get()('Stripe-Signature')
+const sig  = req.headers['Stripe-Signature'];
 const rawBody = await req.text()
 
 let event;
