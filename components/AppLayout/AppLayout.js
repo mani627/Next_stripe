@@ -1,10 +1,10 @@
-import { useState } from 'react'; // Import useState
+import { useState, useRef, useEffect } from 'react'; // Import useState, useRef, and useEffect
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import PostsContext from '../../context/postsContext';
 import { Logo } from '../Logo';
 
@@ -19,6 +19,7 @@ export const AppLayout = ({
   const { user } = useUser();
   const { setPostsFromSSR, posts, getPosts, noMorePosts } = useContext(PostsContext);
   const [isOpen, setIsOpen] = useState(false); // State to manage sidebar visibility
+  const sidebarRef = useRef(null); // Ref for the sidebar
 
   useEffect(() => {
     setPostsFromSSR(postsFromSSR);
@@ -30,26 +31,49 @@ export const AppLayout = ({
     }
   }, [postsFromSSR, setPostsFromSSR, postId, postCreated, getPosts]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if the click is outside the sidebar and toggle button
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    // Add event listener to listen for clicks on the document
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      // Remove event listener on component unmount
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [sidebarRef]);
+
   return (
-    <div className="flex min-h-screen md-[100vh] ">
-     
-      
-<div class=" lg:hidden p-2 absolute top-3 left-2 flex ">
-  <div  onClick={() => setIsOpen(!isOpen)} class="relative w-12 h-12 bg-white rounded-full flex items-center justify-center">
-    <div class="space-y-1">
-      <span class="block w-5 h-0.5 bg-[#3c6d79]"></span>
-      <span class="block w-5 h-0.5 bg-[#3c6d79]"></span>
-      <span class="block w-5 h-0.5 bg-[#3c6d79]"></span>
-    </div>
-  </div>
-</div>
-      {/* Main Content */}
-      <div className="flex-1  bg-[#E0E2EE]  ">
-        {children}
+    <div className="flex min-h-screen md-[100vh]">
+      {/* Toggle button for small screens */}
+      <div className="lg:hidden p-2 absolute top-3 left-2 flex">
+        <div
+          onClick={() => setIsOpen(!isOpen)}
+          className="relative w-12 h-12 bg-white rounded-full flex items-center justify-center"
+        >
+          <div className="space-y-1">
+            <span className="block w-5 h-0.5 bg-[#3c6d79]"></span>
+            <span className="block w-5 h-0.5 bg-[#3c6d79]"></span>
+            <span className="block w-5 h-0.5 bg-[#3c6d79]"></span>
+          </div>
+        </div>
       </div>
 
-      <div className={` flex flex-col text-white overflow-hidden fixed right-0   h-[100dvh] transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'} lg:translate-x-0  `}>
-        <div className=" bg-[#3c6d79] px-2">
+      {/* Main Content */}
+      <div className="flex-1 bg-[#E0E2EE]">{children}</div>
+
+      {/* Sidebar */}
+      <div
+        ref={sidebarRef} // Reference the sidebar for outside click detection
+        className={`flex flex-col text-white overflow-hidden fixed right-0 h-[100dvh] transition-transform duration-300 ${
+          isOpen ? 'translate-x-0' : 'translate-x-full'
+        } lg:translate-x-0`}
+      >
+        <div className="bg-[#3c6d79] px-2">
           <Logo />
           <Link href="/post/new" className="btn bg-[#f9ae65] disabled:bg-[#f9ae65]">
             New post
@@ -60,14 +84,17 @@ export const AppLayout = ({
           </Link>
         </div>
         <div className="px-4 flex-1 overflow-auto bg-gradient-to-b bg-[#3c6d79]">
-        <br/>
-          {posts?.map((post,i) => (
+          <br />
+          {posts?.map((post, i) => (
             <Link
               key={post._id}
               href={`/post/${post._id}`}
-              className={`py-1 border border-white/0 block text-ellipsis overflow-hidden whitespace-nowrap my-1 px-2 bg-white/20 backdrop-blur-md cursor-pointer rounded-sm ${postId === post._id ? 'bg-white/20 border-white' : ''}`}
+              className={`py-1 border border-white/0 block text-ellipsis overflow-hidden whitespace-nowrap my-1 px-2 bg-white/20 backdrop-blur-md cursor-pointer rounded-sm ${
+                postId === post._id ? 'bg-white/20 border-white' : ''
+              }`}
             >
-              {post.topic}{i}
+              {post.topic}
+              {i}
             </Link>
           ))}
           {!noMorePosts && (
@@ -77,7 +104,6 @@ export const AppLayout = ({
               }}
               className="hover:underline text-sm text-slate-400 text-center cursor-pointer mt-4"
             >
-           
               Load more posts
             </div>
           )}
@@ -95,7 +121,7 @@ export const AppLayout = ({
                 />
               </div>
               <div className="flex-1">
-                <div className=" font-medium">{user.email}</div>
+                <div className="font-medium">{user.email}</div>
                 <Link className="text-sm" href="/api/auth/logout">
                   Logout
                 </Link>
@@ -106,8 +132,6 @@ export const AppLayout = ({
           )}
         </div>
       </div>
-
-      
     </div>
   );
 };

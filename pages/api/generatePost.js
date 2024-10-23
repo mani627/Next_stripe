@@ -38,7 +38,7 @@ export default withApiAuthRequired(async function handler(req, res) {
   const raw = JSON.stringify({
     "inputs": prompt,
     "parameters": {
-      "max_length": 800,
+      "max_length": 2000,
       "min_length": 100,
       "temperature": 0.7,
       "top_k": 50,
@@ -61,6 +61,7 @@ export default withApiAuthRequired(async function handler(req, res) {
     const result = await response.json();
 
     const postContent = result[0]?.generated_text || '';
+
 
     // Generate title using Hugging Face API
     const titlePrompt = `Generate an SEO-friendly title for the following blog post content: ${postContent}`;
