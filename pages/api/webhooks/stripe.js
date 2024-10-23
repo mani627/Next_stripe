@@ -54,7 +54,7 @@ const handler = async (req, res) => {
 //       return; // Make sure to return after sending a response
 //     }
 
-const sig  = req.headers['Stripe-Signature'];
+const sig = req.headers['stripe-signature'];
 const rawBody = await buffer(req);
 
 let event;
