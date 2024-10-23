@@ -54,19 +54,13 @@ const handler = async (req, res) => {
 //       return; // Make sure to return after sending a response
 //     }
 
+// Function to buffer request body
 const buffer = (req) => {
-  return new Promise<Buffer>((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const chunks = [];
-
-    req.on("data", (chunk) => {
-      chunks.push(chunk);
-    });
-
-    req.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-
-    req.on("error", reject);
+    req.on("data", (chunk) => chunks.push(chunk)); // Collect chunks of data
+    req.on("end", () => resolve(Buffer.concat(chunks))); // Resolve with the full buffered body
+    req.on("error", (err) => reject(err)); // Reject on error
   });
 };
 
