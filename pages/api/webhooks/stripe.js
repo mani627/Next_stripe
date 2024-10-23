@@ -1,7 +1,7 @@
 import Cors from 'micro-cors';
 // import stripeInit from 'stripe';
 import Stripe from 'stripe';
-import { buffer } from 'micro';
+
 import clientPromise from '../../../lib/mongodb';
 
 
@@ -54,8 +54,24 @@ const handler = async (req, res) => {
 //       return; // Make sure to return after sending a response
 //     }
 
+const buffer = (req) => {
+  return new Promise<Buffer>((resolve, reject) => {
+    const chunks = [];
+
+    req.on("data", (chunk) => {
+      chunks.push(chunk);
+    });
+
+    req.on("end", () => {
+      resolve(Buffer.concat(chunks));
+    });
+
+    req.on("error", reject);
+  });
+};
+
 const sig = req.headers['stripe-signature'];
-const rawBody = req.rawBody;
+const rawBody = await buffer(req);;
 console.log({rawBody});
 
 let event;
